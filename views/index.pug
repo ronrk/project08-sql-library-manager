@@ -1,0 +1,18 @@
+extends layout.pug
+
+block content
+  h1= title 
+    p 
+      a.button(href="books/new")  Create New Book
+    table 
+      tr 
+        th Title 
+        th Author 
+        th Genre 
+        th Year
+      tr
+        td
+          a(href="book_details.html") The Hunger Games 
+        td Suzanne Collins 
+        td Fantasy 
+        td 2008 
