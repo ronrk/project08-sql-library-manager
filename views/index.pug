@@ -10,9 +10,11 @@ block content
         th Author 
         th Genre 
         th Year
-      tr
-        td
-          a(href="book_details.html") The Hunger Games 
-        td Suzanne Collins 
-        td Fantasy 
-        td 2008 
+      each book in books
+        tr
+          td
+            a(href=`/books/${book.dataValues.id}`) #{book.dataValues.title}
+          td=book.dataValues.author 
+          td=book.dataValues.genre 
+          td=book.dataValues.year
+            

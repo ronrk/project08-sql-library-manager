@@ -2,7 +2,8 @@ extends layout.pug
 
 block content
     h1 New Book 
-        form(action=`` method="post")
+    include errors
+        form(action=`/books/new` method="post")
             p
                 label(for="title") Title
                 input(name="title" type="text" id="title") 
@@ -18,4 +19,4 @@ block content
             p 
                 input(type="submit" value="Create New Book")
             p 
-                a.button(href="../index") Cancel
+                a.button(href="/books") Cancel

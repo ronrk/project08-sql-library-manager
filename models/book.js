@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: 'Please provie a value for Book "title"',
+            msg: 'Please provie a value for "title"',
           },
         },
       },
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: 'Please provie a value for Book "author"',
+            msg: 'Please provie a value for "author"',
           },
         },
       },
