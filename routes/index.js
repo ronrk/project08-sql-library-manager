@@ -40,7 +40,9 @@ router.get(
 );
 
 //render the new-book page
-router.get("/books/new", (req, res) => res.render("new-book"));
+router.get("/books/new", (req, res) =>
+  res.render("new-book", { title: "Create New Book" })
+);
 
 //post the New book and redirect to /books
 router.post(
@@ -67,7 +69,7 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const book = await Book.findByPk(req.params.id);
     if (book) {
-      res.render("update-book", { book, title: book.title });
+      res.render("update-book", { book, title: `${book.title}- Update Book` });
     } else {
       const err = new Error();
       err.status = 404;

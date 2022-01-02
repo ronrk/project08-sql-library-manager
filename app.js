@@ -49,11 +49,13 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   if (err.status === 404) {
-    res.status(404).render("page-not-found", { err });
+    res.status(404).render("page-not-found", { err, title: "Page Not Found" });
   } else {
     // render the error page
     err.message = err.message || "Oops! something wrong with the server";
-    res.status(err.status || 500).render("page-not-found", { err });
+    res
+      .status(err.status || 500)
+      .render("error", { err, title: "Server Error" });
   }
 });
 
