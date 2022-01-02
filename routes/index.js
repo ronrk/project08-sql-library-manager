@@ -26,12 +26,15 @@ router.get("/", (req, res) => {
 //get /books
 router.get(
   "/books",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const books = await Book.findAll();
     if (books) {
       res.render("index", { title: "Books Library Manager", books });
     } else {
-      res.render("page-not-found");
+      const err = new Error();
+      err.status = 404;
+      err.message = 'not a valid "Table" name, try- "/books"';
+      next(err);
     }
   })
 );
@@ -61,12 +64,15 @@ router.post(
 //render update-book page depend on req.params.id
 router.get(
   "/books/:id",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const book = await Book.findByPk(req.params.id);
     if (book) {
       res.render("update-book", { book, title: book.title });
     } else {
-      res.render("page-not-found");
+      const err = new Error();
+      err.status = 404;
+      err.message = '"Book.id" is not valid or not exist';
+      next(err);
     }
   })
 );
@@ -83,7 +89,6 @@ router.post(
         res.redirect("/books");
       } else {
         res.sendStatus(404);
-        res.render("page-not-found");
       }
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
