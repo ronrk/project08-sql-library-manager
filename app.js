@@ -36,7 +36,11 @@ try {
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   console.log("404 error handler");
-  res.status(404).render("page-not-found");
+  const err = new Error();
+  err.status = 404;
+  err.message = 'Table/Model is not valid or not exist try "/book"';
+  res.status(404);
+  next(err);
 });
 
 // error handler

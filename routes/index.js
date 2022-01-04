@@ -12,9 +12,6 @@ function asyncHandler(cb) {
     try {
       await cb(req, res, next);
     } catch (err) {
-      // Forward error to the global error handler
-      err.status = 404;
-      err.message = '"Book.id" is not valid or not exist';
       next(err);
     }
   };
