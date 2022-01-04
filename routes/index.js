@@ -11,9 +11,11 @@ function asyncHandler(cb) {
   return async (req, res, next) => {
     try {
       await cb(req, res, next);
-    } catch (error) {
+    } catch (err) {
       // Forward error to the global error handler
-      next(error);
+      err.status = 404;
+      err.message = '"Book.id" is not valid or not exist';
+      next(err);
     }
   };
 }
@@ -26,16 +28,9 @@ router.get("/", (req, res) => {
 //get /books
 router.get(
   "/books",
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const books = await Book.findAll();
-    if (books) {
-      res.render("index", { title: "Books Library Manager", books });
-    } else {
-      const err = new Error();
-      err.status = 404;
-      err.message = 'not a valid "Table" name, try- "/books"';
-      next(err);
-    }
+    res.render("index", { title: "Books Library Manager", books });
   })
 );
 
@@ -52,8 +47,8 @@ router.post(
     try {
       book = await Book.create(req.body);
       res.redirect("/books");
-    } catch (error) {
-      if (error.name === "SequelizeValidationError") {
+    } catch (err) {
+      if (err.name === "SequelizeValidationError") {
         book = await Book.build(req.body);
         res.render("new-book", { errors: error.errors });
       } else {
@@ -92,8 +87,8 @@ router.post(
       } else {
         res.sendStatus(404);
       }
-    } catch (error) {
-      if (error.name === "SequelizeValidationError") {
+    } catch (err) {
+      if (err.name === "SequelizeValidationError") {
         book = await Book.build(req.body);
         book.id = req.params.id;
         res.render("update-book", {
